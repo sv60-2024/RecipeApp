@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.search {
+  width: 100%;
+  max-width: 360px;
+}
+
+.table-card {
+  overflow: hidden;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.mat-column-id {
+  width: 64px;
+}
+
+.mat-column-name {
+  width: 35%;
+}
+
+.no-data {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+}

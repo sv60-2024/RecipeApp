@@ -2,8 +2,20 @@
 
 <nav>
   <a routerLink="/home">Home</a> |
-  <a routerLink="/profile">Profile</a> |
-  <a routerLink="/admin">Admin</a>
+  <a routerLink="/profile">Profile</a>
+  @if (auth.isAdmin()) {
+    | <a routerLink="/admin">Admin</a>
+  }
 </nav>
+
+<!-- PRIVREMENO: izbor uloge dok ne postoji prijava -->
+<div class="dev-role">
+  <label for="dev-role">Uloga (privremeno):</label>
+  <select id="dev-role" [value]="auth.role() ?? ''" (change)="changeRole($event)">
+    <option value="">Gost</option>
+    <option value="USER">Korisnik</option>
+    <option value="ADMIN">Admin</option>
+  </select>
+</div>
 
 <router-outlet></router-outlet>

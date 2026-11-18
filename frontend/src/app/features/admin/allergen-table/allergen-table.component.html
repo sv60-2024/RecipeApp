@@ -1,0 +1,40 @@
+<mat-form-field appearance="outline" class="search">
+  <mat-label>Pretraga</mat-label>
+  <input matInput placeholder="npr. mleko" (input)="applyFilter($event)" />
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<div class="table-card">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+      <td mat-cell *matCellDef="let allergen">{{ allergen.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Naziv</th>
+      <td mat-cell *matCellDef="let allergen">{{ allergen.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Opis</th>
+      <td mat-cell *matCellDef="let allergen">{{ allergen.description }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <tr class="mat-mdc-row" *matNoDataRow>
+      <td class="mat-mdc-cell no-data" [attr.colspan]="displayedColumns.length">
+        Nema rezultata za „{{ searchText }}”.
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Izbor strane"
+  ></mat-paginator>
+</div>
