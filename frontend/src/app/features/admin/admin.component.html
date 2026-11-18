@@ -1,1 +1,19 @@
-<p>admin works!</p>
+<section class="admin">
+  <h2>Administracija</h2>
+
+  <nav mat-tab-nav-bar mat-stretch-tabs="false" mat-align-tabs="start" [tabPanel]="tabPanel">
+    <a
+      mat-tab-link
+      routerLink="allergens"
+      routerLinkActive
+      #allergensLink="routerLinkActive"
+      [active]="allergensLink.isActive"
+    >
+      Alergeni
+    </a>
+  </nav>
+
+  <mat-tab-nav-panel #tabPanel>
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
+</section>
