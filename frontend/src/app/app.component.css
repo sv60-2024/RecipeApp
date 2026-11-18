@@ -1,0 +1,10 @@
+.dev-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  padding: 4px 8px;
+  border: 1px dashed var(--mat-sys-error);
+  border-radius: 8px;
+  font-size: 14px;
+}
