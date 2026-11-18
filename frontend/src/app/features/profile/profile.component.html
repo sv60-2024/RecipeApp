@@ -1,1 +1,31 @@
-<p>profile works!</p>
+<h2>User Profile</h2>
+
+<nav class="profile-links" aria-label="Demo profile navigation">
+  <a routerLink="/profile">My profile</a>
+  <a routerLink="/profile/marko">View Marko's profile</a>
+</nav>
+
+@if (profile$ | async; as profile) {
+  <article class="profile-card">
+    <img
+      class="profile-picture"
+      [src]="profile.profilePictureUrl"
+      [alt]="'Profile picture of ' + profile.username"
+      width="88"
+      height="88"
+    />
+
+    <div>
+      <h3>{{ profile.username }}</h3>
+
+      <p><strong>Region:</strong> {{ profile.region }}</p>
+      <p><strong>Published recipes:</strong> {{ profile.publishedRecipeCount }}</p>
+
+      @if (profile.bio) {
+        <p>{{ profile.bio }}</p>
+      }
+    </div>
+  </article>
+} @else {
+  <p>Profile not found.</p>
+}
