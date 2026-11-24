@@ -1,1 +1,21 @@
-<p>admin works!</p>
+<section class="admin">
+  <h2>Administracija</h2>
+
+  <nav mat-tab-nav-bar mat-stretch-tabs="false" mat-align-tabs="start" [tabPanel]="tabPanel">
+    @for (catalog of catalogs; track catalog.kind) {
+      <a
+        mat-tab-link
+        [routerLink]="catalog.kind"
+        routerLinkActive
+        #link="routerLinkActive"
+        [active]="link.isActive"
+      >
+        {{ catalog.label }}
+      </a>
+    }
+  </nav>
+
+  <mat-tab-nav-panel #tabPanel>
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
+</section>
