@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ADMIN_CATALOGS } from './admin-catalogs';
 
 @Component({
   selector: 'app-admin',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css',
 })
-export class Admin {}
+export class Admin {
+  protected readonly catalogs = ADMIN_CATALOGS;
+}
