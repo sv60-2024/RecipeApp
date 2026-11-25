@@ -1,3 +1,24 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  max-width: 1150px;
+  margin-top: 24px;
+  padding: 24px;
+  background: #f8faf8;
+  color: #263238;
+  border: 1px solid #e0e9e1;
+  border-radius: 16px;
+}
+
+h2,
+h3 {
+  color: #304538;
+}
+
+h2 {
+  margin-top: 0;
+}
+
 .recipe-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -11,7 +32,8 @@
   box-sizing: border-box;
   height: 100%;
   padding: 20px;
-  border: 1px solid #ddd;
+  background: #ffffff;
+  border: 1px solid #d3dfd5;
   border-radius: 12px;
   overflow-wrap: anywhere;
 }
@@ -37,4 +59,89 @@
 
 .empty-state {
   grid-column: 1 / -1;
+}
+
+.recipe-views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.recipe-views button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border: 1px solid #d3dfd5;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #526458;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.recipe-views button:hover {
+  background: #edf2ed;
+}
+
+.recipe-views button[aria-pressed='true'] {
+  background: linear-gradient(135deg, #36824c, #276d3d);
+  color: white;
+  border-color: #276d3d;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(54, 130, 76, 0.2);
+}
+
+.recipe-views button[aria-pressed='true']:hover {
+  background: linear-gradient(135deg, #2e7542, #205a32);
+  box-shadow: 0 6px 16px rgba(54, 130, 76, 0.28);
+  transform: translateY(-2px);
+}
+
+.recipe-views button[aria-pressed='true']:active {
+  transform: translateY(0);
+}
+
+.recipe-views button:focus-visible {
+  outline: 2px solid #36824c;
+  outline-offset: 3px;
+}
+
+.available-ingredients {
+  max-width: 1100px;
+  margin: 16px 0;
+}
+
+.available-ingredients summary {
+  cursor: pointer;
+}
+
+.recipe-rating strong,
+.available-ingredients summary {
+  color: #276d3d;
+}
+
+@media (max-width: 600px) {
+  :host {
+    padding: 20px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recipe-views button {
+    transition: none;
+  }
+
+  .recipe-views button[aria-pressed='true']:hover {
+    transform: none;
+  }
 }
