@@ -13,6 +13,9 @@ export class RecipeService {
       ratedAt: new Date(now.getFullYear(), now.getMonth() + monthOffset, day, 12).toISOString(),
     });
 
+    const published = (daysAgo: number) =>
+      new Date(now.getTime() - daysAgo * 86_400_000).toISOString();
+
     return of([
       {
         id: 1,
@@ -21,6 +24,12 @@ export class RecipeService {
         author: 'Vukašin',
         preparationMinutes: 35,
         servings: 2,
+        publishedAt: published(5),
+        ingredients: [
+          { ingredientId: 7, name: 'Rice', quantity: 200, unit: 'g' },
+          { ingredientId: 2, name: 'Tomato', quantity: 100, unit: 'g' },
+          { ingredientId: 8, name: 'Parmesan', quantity: 50, unit: 'g' },
+        ],
         ratings: [rating(4, -1, 2), rating(4, -1, 14), rating(5, 0, 1)],
       },
       {
@@ -30,6 +39,13 @@ export class RecipeService {
         author: 'Marko',
         preparationMinutes: 25,
         servings: 4,
+        publishedAt: published(3),
+        ingredients: [
+          { ingredientId: 9, name: 'Flour', quantity: 250, unit: 'g' },
+          { ingredientId: 10, name: 'Apple', quantity: 2, unit: 'piece' },
+          { ingredientId: 11, name: 'Milk', quantity: 300, unit: 'ml' },
+          { ingredientId: 12, name: 'Cinnamon', quantity: 2, unit: 'g' },
+        ],
         ratings: [rating(5, -1, 3), rating(5, -1, 8), rating(4, -1, 15), rating(5, -1, 20)],
       },
       {
@@ -39,6 +55,12 @@ export class RecipeService {
         author: 'Andrej',
         preparationMinutes: 20,
         servings: 2,
+        publishedAt: published(1),
+        ingredients: [
+          { ingredientId: 1, name: 'Pasta', quantity: 200, unit: 'g' },
+          { ingredientId: 2, name: 'Tomato', quantity: 300, unit: 'g' },
+          { ingredientId: 3, name: 'Basil', quantity: 10, unit: 'g' },
+        ],
         ratings: [rating(4, -1, 4), rating(5, -1, 18), rating(1, -2, 10)],
       },
       {
@@ -48,6 +70,13 @@ export class RecipeService {
         author: 'Marko',
         preparationMinutes: 15,
         servings: 2,
+        publishedAt: published(0),
+        ingredients: [
+          { ingredientId: 4, name: 'Chickpeas', quantity: 250, unit: 'g' },
+          { ingredientId: 5, name: 'Cucumber', quantity: 1, unit: 'piece' },
+          { ingredientId: 2, name: 'Tomato', quantity: 200, unit: 'g' },
+          { ingredientId: 6, name: 'Lemon', quantity: 1, unit: 'piece' },
+        ],
         ratings: [rating(5, 0, 1)],
       },
     ]);

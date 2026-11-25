@@ -9,6 +9,8 @@ const recipe = (id: number, ratings: RecipeSummary['ratings']): RecipeSummary =>
   preparationMinutes: 20,
   servings: 2,
   ratings,
+  publishedAt: '2026-01-01T12:00:00Z',
+  ingredients: [],
 });
 
 describe('Popular recipes', () => {

@@ -1,20 +1,66 @@
 <h2>Home</h2>
 <p>Discover recipes and find inspiration for your next meal.</p>
 
-<section aria-labelledby="popular-recipes-heading">
-  <h3 id="popular-recipes-heading">Popular recipes</h3>
-  <p>Highest average ratings in {{ ratingMonth | date: 'MMMM yyyy' }}.</p>
+<div class="recipe-views" role="group" aria-label="Recipe view">
+  @for (view of views; track view.id) {
+    <button
+      type="button"
+      [attr.aria-pressed]="selectedView === view.id"
+      aria-controls="home-recipes"
+      (click)="selectView(view.id)"
+    >
+      {{ view.label }}
+    </button>
+  }
+</div>
+
+<section id="home-recipes" aria-labelledby="recipes-heading">
+  <h3 id="recipes-heading">{{ viewCopy[selectedView].title }}</h3>
+  @switch (selectedView) {
+    @case ('popular') {
+      <p>Highest average ratings in {{ ratingMonth | date: 'MMMM yyyy' }}.</p>
+    }
+    @case ('latest') {
+      <p>Recently published recipes, newest first.</p>
+    }
+    @case ('cookable') {
+      <p>
+        Recipes for which you have every ingredient in sufficient quantity, for the listed servings.
+      </p>
+    }
+  }
 
   @if (state$ | async; as state) {
     @switch (state.status) {
       @case ('loading') {
-        <p role="status">Loading recipes…</p>
+        <p role="status">
+          {{
+            selectedView === 'cookable'
+              ? 'Loading recipes and available ingredients…'
+              : 'Loading recipes…'
+          }}
+        </p>
       }
       @case ('error') {
-        <p role="alert">Recipes could not be loaded. Please try again later.</p>
+        <p role="alert">{{ state.error }}</p>
       }
       @case ('ready') {
-        <ul class="recipe-list" aria-label="Popular recipes, highest rated first">
+        @if (selectedView === 'cookable') {
+          <details class="available-ingredients">
+            <summary>Available ingredients ({{ state.inventory.length }})</summary>
+            <ul>
+              @for (ingredient of state.inventory; track $index) {
+                <li>
+                  {{ ingredient.name }}: {{ ingredient.quantity | number: '1.0-3' }}
+                  {{ ingredient.unit }}
+                </li>
+              } @empty {
+                <li>Your ingredient inventory is empty.</li>
+              }
+            </ul>
+          </details>
+        }
+        <ul class="recipe-list" [attr.aria-label]="viewCopy[selectedView].list">
           @for (item of state.recipes; track item.recipe.id) {
             <li>
               <article class="recipe-card" [attr.aria-labelledby]="'recipe-' + item.recipe.id">
@@ -27,16 +73,34 @@
                   >
                   <span><strong>Servings:</strong> {{ item.recipe.servings }}</span>
                 </p>
-                <p class="recipe-rating">
-                  <strong>Rating:</strong> {{ item.averageRating | number: '1.1-2' }} / 5 ({{
-                    item.ratingCount
-                  }}
-                  {{ item.ratingCount === 1 ? 'rating' : 'ratings' }})
-                </p>
+                @if (selectedView === 'popular') {
+                  <p class="recipe-rating">
+                    <strong>Rating:</strong> {{ item.averageRating | number: '1.1-2' }} / 5 ({{
+                      item.ratingCount
+                    }}
+                    {{ item.ratingCount === 1 ? 'rating' : 'ratings' }})
+                  </p>
+                } @else {
+                  <p>
+                    <strong>Published:</strong>
+                    {{ item.recipe.publishedAt | date: 'MMM d, y, HH:mm' }}
+                  </p>
+                }
+                @if (selectedView === 'cookable') {
+                  <p><strong>Required ingredients:</strong></p>
+                  <ul>
+                    @for (ingredient of item.recipe.ingredients; track $index) {
+                      <li>
+                        {{ ingredient.name }}: {{ ingredient.quantity | number: '1.0-3' }}
+                        {{ ingredient.unit }}
+                      </li>
+                    }
+                  </ul>
+                }
               </article>
             </li>
           } @empty {
-            <li class="empty-state">No recipes were rated in the previous month.</li>
+            <li class="empty-state" role="status">{{ viewCopy[selectedView].empty }}</li>
           }
         </ul>
       }

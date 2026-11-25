@@ -76,7 +76,7 @@ available; the UI is not connected to a backend yet.
 The main navigation links to existing Home, Profile and (for admins) Admin
 routes. Recipe detail routes and other future features are not part of this
 card. Andrej's profile implementation must be merged separately; this branch
-does not copy his unmerged work. IKS-24B is not implemented here yet.
+does not copy his unmerged work. IKS-24B adds the other recipe views below.
 
 ### Manual verification
 
@@ -101,3 +101,50 @@ test process before running the tests:
 $env:NODE_OPTIONS = '--no-experimental-webstorage'
 npm test -- --watch=false
 ```
+
+## IKS-24B: Latest and cookable recipes
+
+Trello: https://trello.com/c/6ZmwJWmY/38-iks-24b-latest-and-cookable-recipes-on-home
+
+Home has three view buttons: Popular (still the default), Latest, and Can cook.
+Latest uses publication timestamps, newest first, and includes recipes without
+ratings. Invalid or future publication dates are not treated as published recipes.
+
+Can cook uses all required ingredients and quantities for the recipe's listed
+servings. Matching uses ingredient IDs, not text labels. It converts kg/g and l/ml,
+keeps pieces separate, sums repeated requirements and stock entries, and excludes
+recipes with missing ingredients, insufficient stock, or incomplete requirements.
+Recipes are checked independently; viewing them does not consume stock. Matching
+recipes are ordered newest first. The ingredient inventory is available as a
+read-only disclosure, and cards show the quantities required for that recipe.
+
+`InventoryService` supplies temporary stock until the authenticated ISS API is
+available. It is a separate data source so an inventory error does not block the
+other views. Loading, empty inventory, no matching recipes and service errors
+have their own messages. Inventory management (IKS-17) and recipe details remain
+outside these home-page cards. Authentication and real user-specific stock are
+not implemented by the existing temporary role selector.
+
+### Verify 24B
+
+1. Open Home. Popular must remain selected with pancakes, pasta, risotto.
+2. Select Latest: salad, pasta, pancakes, risotto (newest first).
+3. Select Can cook: salad and pasta. Expand Available ingredients and compare
+   amounts with the cards. The 0.5 kg of tomato stock covers either recipe's
+   requirement in grams. Rice/parmesan and pancake ingredients are missing.
+4. Return to Popular: the previous-month ranking must be unchanged.
+5. Run the build and tests using the commands above. Additional tests cover
+   view switching, publication dates, all-ingredient matching, quantities, unit
+   conversion, duplicate entries, reactive stock updates, and inventory errors.
+
+Both cards stay In Progress until their shared PR is opened toward develop.
+
+### Visual reference
+
+Home uses the green profile-edit controls on Andrej's branch at `cfc8636` as
+its visual reference: Roboto 14px / 600 buttons, 13px 26px padding, 12px corner
+radius, green gradient and matching hover shadow, with 12px control gaps.
+The pale-green panel follows the profile form's 24px padding and 16px radius.
+Recipe cards retain a grid suited to browsing. The shared Material theme and
+the admin tables still use their existing blue theme; this is not a global
+theme replacement. No profile code is copied into this branch.

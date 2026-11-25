@@ -1,3 +1,5 @@
+import { IngredientAmount } from './ingredient.model';
+
 export interface RecipeRating {
   value: number;
   ratedAt: string;
@@ -11,6 +13,8 @@ export interface RecipeSummary {
   preparationMinutes: number;
   servings: number;
   ratings: RecipeRating[];
+  publishedAt: string;
+  ingredients: IngredientAmount[];
 }
 
 export interface PopularRecipe {
