@@ -1,1 +1,117 @@
-<p>profile works!</p>
+<h2>User Profile</h2>
+
+<nav class="profile-links" aria-label="Demo profile navigation">
+  <a routerLink="/profile">My profile</a>
+  <a routerLink="/profile/marko">View Marko's profile</a>
+</nav>
+
+@if (profile$ | async; as profile) {
+  <article class="profile-card">
+
+    <!-- Profilna slika -->
+    <img
+      class="profile-picture"
+      [src]="isEditing ? editedProfilePictureUrl : profile.profilePictureUrl"
+      [alt]="'Profile picture of ' + profile.username"
+      width="120"
+      height="120"
+    />
+
+    <div class="profile-info">
+      <h3>{{ profile.username }}</h3>
+
+      @if (!isEditing) {
+
+        <!-- Prikaz profila -->
+        <p>
+          <strong>Region:</strong>
+          {{ profile.region }}
+        </p>
+
+        <p>
+          <strong>Published recipes:</strong>
+          {{ profile.publishedRecipeCount }}
+        </p>
+
+        @if (profile.bio) {
+          <p>{{ profile.bio }}</p>
+        }
+
+        @if (profile.username === 'andrej') {
+          <button
+            type="button"
+            class="edit-button"
+            (click)="startEditing(profile)"
+          >
+            <span aria-hidden="true">✏️</span>
+            Edit Profile
+          </button>
+        }
+
+      } @else {
+
+        <!-- Forma za izmenu profila -->
+        <div class="edit-form">
+
+          
+          <div class="picture-upload">
+            <label for="profilePicture">Profile Picture</label>
+
+            <input
+              id="profilePicture"
+              type="file"
+              accept="image/*"
+              (change)="onProfilePictureSelected($event)"
+            />
+
+            <small>Supported formats: JPG, PNG, WebP. Maximum size: 5 MB.</small>
+          </div>
+
+          
+          <label for="region">Region</label>
+          <input
+            id="region"
+            type="text"
+            [value]="editedRegion"
+            (input)="editedRegion = $any($event.target).value"
+            placeholder="Enter your region"
+          />
+
+          
+          <label for="bio">Biography</label>
+          <textarea
+            id="bio"
+            rows="4"
+            [value]="editedBio"
+            (input)="editedBio = $any($event.target).value"
+            placeholder="Tell us something about yourself"
+          ></textarea>
+
+          
+          <div class="form-actions">
+            <button
+              type="button"
+              class="edit-button"
+              (click)="saveChanges()"
+            >
+              Save Changes
+            </button>
+
+            <button
+              type="button"
+              class="cancel-button"
+              (click)="cancelEditing()"
+            >
+              Cancel
+            </button>
+          </div>
+
+        </div>
+
+      }
+    </div>
+  </article>
+
+} @else {
+  <p>Profile not found.</p>
+}
