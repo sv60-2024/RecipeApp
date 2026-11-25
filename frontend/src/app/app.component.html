@@ -1,10 +1,10 @@
 <h1>RecipeApp</h1>
 
-<nav>
-  <a routerLink="/home">Home</a> |
-  <a routerLink="/profile">Profile</a>
+<nav aria-label="Main navigation">
+  <a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a>
+  <a routerLink="/profile" routerLinkActive="active" ariaCurrentWhenActive="page">Profile</a>
   @if (auth.isAdmin()) {
-    | <a routerLink="/admin">Admin</a>
+    <a routerLink="/admin" routerLinkActive="active" ariaCurrentWhenActive="page">Admin</a>
   }
 </nav>
 

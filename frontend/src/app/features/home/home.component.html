@@ -1,1 +1,45 @@
-<p>home works!</p>
+<h2>Home</h2>
+<p>Discover recipes and find inspiration for your next meal.</p>
+
+<section aria-labelledby="popular-recipes-heading">
+  <h3 id="popular-recipes-heading">Popular recipes</h3>
+  <p>Highest average ratings in {{ ratingMonth | date: 'MMMM yyyy' }}.</p>
+
+  @if (state$ | async; as state) {
+    @switch (state.status) {
+      @case ('loading') {
+        <p role="status">Loading recipes…</p>
+      }
+      @case ('error') {
+        <p role="alert">Recipes could not be loaded. Please try again later.</p>
+      }
+      @case ('ready') {
+        <ul class="recipe-list" aria-label="Popular recipes, highest rated first">
+          @for (item of state.recipes; track item.recipe.id) {
+            <li>
+              <article class="recipe-card" [attr.aria-labelledby]="'recipe-' + item.recipe.id">
+                <h4 [id]="'recipe-' + item.recipe.id">{{ item.recipe.name }}</h4>
+                <p>{{ item.recipe.description }}</p>
+                <p><strong>By:</strong> {{ item.recipe.author }}</p>
+                <p class="recipe-meta">
+                  <span
+                    ><strong>Preparation:</strong> {{ item.recipe.preparationMinutes }} min</span
+                  >
+                  <span><strong>Servings:</strong> {{ item.recipe.servings }}</span>
+                </p>
+                <p class="recipe-rating">
+                  <strong>Rating:</strong> {{ item.averageRating | number: '1.1-2' }} / 5 ({{
+                    item.ratingCount
+                  }}
+                  {{ item.ratingCount === 1 ? 'rating' : 'ratings' }})
+                </p>
+              </article>
+            </li>
+          } @empty {
+            <li class="empty-state">No recipes were rated in the previous month.</li>
+          }
+        </ul>
+      }
+    }
+  }
+</section>
