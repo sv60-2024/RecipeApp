@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <mat-label>Naziv</mat-label>
+      <input matInput formControlName="name" cdkFocusInitial />
+      @if (form.controls.name.hasError('required') || form.controls.name.hasError('blank')) {
+        <mat-error>Naziv je obavezan.</mat-error>
+      } @else if (form.controls.name.hasError('maxlength')) {
+        <mat-error>Naziv može imati najviše 50 znakova.</mat-error>
+      } @else if (form.controls.name.hasError('duplicate')) {
+        <mat-error>Ovaj naziv već postoji.</mat-error>
+      }
+    </mat-form-field>
+
+    @if (data.withDescription) {
+      <mat-form-field appearance="outline">
+        <mat-label>Opis</mat-label>
+        <textarea matInput formControlName="description" rows="3"></textarea>
+        @if (form.controls.description.hasError('maxlength')) {
+          <mat-error>Opis može imati najviše 200 znakova.</mat-error>
+        }
+      </mat-form-field>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close>Otkaži</button>
+    <button mat-flat-button type="submit">Sačuvaj</button>
+  </mat-dialog-actions>
+</form>

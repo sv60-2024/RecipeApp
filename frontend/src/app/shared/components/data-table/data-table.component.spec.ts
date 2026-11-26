@@ -59,6 +59,18 @@ describe('DataTable', () => {
     expect(element.textContent).toContain('Nema rezultata za „xyz”');
   });
 
+  it('should show edit and delete buttons only when editable', async () => {
+    expect(element.querySelector('th.mat-column-actions')).toBeNull();
+
+    fixture.componentRef.setInput('editable', true);
+    await fixture.whenStable();
+    const edited: Row[] = [];
+    fixture.componentInstance.edit.subscribe((row) => edited.push(row));
+
+    (element.querySelector('button[aria-label="Izmeni"]') as HTMLElement).click();
+    expect(edited).toEqual([ROWS[0]]);
+  });
+
   it('should sort by name in Serbian alphabetical order', async () => {
     const nameHeader = element.querySelector('th.mat-column-name') as HTMLElement;
     nameHeader.click();
