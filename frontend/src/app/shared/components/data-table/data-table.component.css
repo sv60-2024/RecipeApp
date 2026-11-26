@@ -2,6 +2,14 @@
   display: block;
 }
 
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0 16px;
+}
+
 .search {
   width: 100%;
   max-width: 360px;
@@ -20,6 +28,11 @@ table {
 
 .mat-column-id {
   width: 64px;
+}
+
+.mat-column-actions {
+  width: 112px;
+  text-align: right;
 }
 
 .no-data {
