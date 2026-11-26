@@ -13,6 +13,7 @@ import { CatalogItem } from '../../../shared/models/catalog-item.model';
 export interface CatalogItemDialogData {
   title: string;
   item?: CatalogItem;
+  initialName?: string;
   withDescription: boolean;
   existingNames: string[];
 }
@@ -29,7 +30,7 @@ export class CatalogItemDialog {
     inject<MatDialogRef<CatalogItemDialog, CatalogItemInput>>(MatDialogRef);
 
   protected readonly form = new FormGroup({
-    name: new FormControl(this.data.item?.name ?? '', {
+    name: new FormControl(this.data.item?.name ?? this.data.initialName ?? '', {
       nonNullable: true,
       validators: [
         Validators.required,
