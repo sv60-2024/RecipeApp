@@ -17,8 +17,12 @@
 
 .table-card {
   overflow: hidden;
-  border: 1px solid var(--mat-sys-outline-variant);
+  background: #ffffff;
+  border: 1px solid #d3dfd5;
   border-radius: 12px;
+  --mat-table-background-color: #ffffff;
+  --mat-paginator-container-background-color: #ffffff;
+  --mat-table-header-headline-color: #304538;
 }
 
 table {

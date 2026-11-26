@@ -10,11 +10,22 @@ html {
   @include mat.theme(
     (
       color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+        primary: mat.$green-palette,
+        tertiary: mat.$green-palette,
       ),
       typography: Roboto,
       density: 0,
+    )
+  );
+
+  // Zelene boje aplikacije (iste kao na početnoj strani i profilu),
+  // da Material komponente (tabovi, polja, dugmad, dijalozi) budu usklađene.
+  @include mat.theme-overrides(
+    (
+      primary: #36824c,
+      on-primary: #ffffff,
+      primary-container: #e5f2e8,
+      on-primary-container: #205a32,
     )
   );
 }
