@@ -1,10 +1,26 @@
 .admin {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 16px;
+  box-sizing: border-box;
+  max-width: 1150px;
+  margin-top: 24px;
+  padding: 24px;
+  background: #f8faf8;
+  color: #263238;
+  border: 1px solid #e0e9e1;
+  border-radius: 16px;
+}
+
+h2 {
+  margin-top: 0;
+  color: #304538;
 }
 
 mat-tab-nav-panel {
   display: block;
   padding-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .admin {
+    padding: 20px 16px;
+  }
 }
