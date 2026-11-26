@@ -65,9 +65,24 @@ describe('CatalogPage', () => {
     expect(page().querySelectorAll('tr[mat-row]').length).toBe(5);
   });
 
-  it('should not offer editing for catalogs that belong to IKS-22C', async () => {
+  it('should ask for a description when adding an allergen', async () => {
     await harness.navigateByUrl('/allergens');
-    expect(page().querySelector('.add-button')).toBeNull();
+    (page().querySelector('.add-button') as HTMLElement).click();
+    await harness.fixture.whenStable();
+    expect(document.querySelector('mat-dialog-container textarea')).not.toBeNull();
+  });
+
+  it('should open the form with the proposed name and add the category', async () => {
+    await harness.navigateByUrl('/ingredient-categories?proposal=Pečurke');
+    await harness.fixture.whenStable();
+
+    const input = document.querySelector('mat-dialog-container input') as HTMLInputElement;
+    expect(input.value).toBe('Pečurke');
+    expect(TestBed.inject(Router).url).toBe('/ingredient-categories');
+
+    (document.querySelector('mat-dialog-container button[type=submit]') as HTMLElement).click();
+    await harness.fixture.whenStable();
+    expect(page().querySelector('.mat-mdc-paginator-range-label')?.textContent).toContain('of 9');
   });
 
   it('should show allergens with their description', async () => {
