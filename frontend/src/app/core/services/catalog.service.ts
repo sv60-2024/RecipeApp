@@ -10,7 +10,7 @@ const items = (names: string[]): CatalogItem[] =>
   names.map((name, index) => ({ id: index + 1, name }));
 
 // PRIVREMENO: probni podaci iz specifikacije dok ne postoji backend.
-// U IKS-22B i IKS-22C ovde ide HTTP poziv, npr. this.http.get<CatalogItem[]>(`/api/${kind}`).
+// Kad bude backend-a, metode servisa postaju HTTP pozivi, npr. this.http.get<CatalogItem[]>(`/api/${kind}`).
 const MOCK_CATALOGS: Record<CatalogKind, CatalogItem[]> = {
   'meal-types': items([
     'Doručak',
@@ -67,9 +67,33 @@ const MOCK_CATALOGS: Record<CatalogKind, CatalogItem[]> = {
   ],
 };
 
+// Podaci koje korisnik šalje kad dodaje ili menja stavku (id dodeljuje server).
+export type CatalogItemInput = Omit<CatalogItem, 'id'>;
+
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
+  // PRIVREMENO: radna kopija probnih podataka; izmene traju dok se stranica ne osveži.
+  private readonly data: Record<CatalogKind, CatalogItem[]> = structuredClone(MOCK_CATALOGS);
+
   getAll(kind: CatalogKind): Observable<CatalogItem[]> {
-    return of(MOCK_CATALOGS[kind]);
+    return of([...this.data[kind]]);
+  }
+
+  create(kind: CatalogKind, input: CatalogItemInput): Observable<CatalogItem> {
+    const items = this.data[kind];
+    const created = { ...input, id: Math.max(0, ...items.map((item) => item.id)) + 1 };
+    this.data[kind] = [...items, created];
+    return of(created);
+  }
+
+  update(kind: CatalogKind, id: number, input: CatalogItemInput): Observable<CatalogItem> {
+    const updated = { ...input, id };
+    this.data[kind] = this.data[kind].map((item) => (item.id === id ? updated : item));
+    return of(updated);
+  }
+
+  delete(kind: CatalogKind, id: number): Observable<void> {
+    this.data[kind] = this.data[kind].filter((item) => item.id !== id);
+    return of(undefined);
   }
 }
