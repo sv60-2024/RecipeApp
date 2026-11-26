@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,11 +20,15 @@ const collator = new Intl.Collator('sr-Latn', { numeric: true });
 export class DataTable<T extends object> implements AfterViewInit {
   @Input({ required: true }) columns: TableColumn<T>[] = [];
   @Input() pageSize = 5;
+  @Input() editable = false;
 
   @Input({ required: true })
   set data(rows: T[]) {
     this.dataSource.data = rows;
   }
+
+  @Output() edit = new EventEmitter<T>();
+  @Output() remove = new EventEmitter<T>();
 
   protected readonly dataSource = new MatTableDataSource<T>([]);
   protected searchText = '';
@@ -53,7 +57,8 @@ export class DataTable<T extends object> implements AfterViewInit {
   }
 
   protected get displayedColumns(): string[] {
-    return this.columns.map((column) => column.key);
+    const keys = this.columns.map((column) => column.key);
+    return this.editable ? [...keys, 'actions'] : keys;
   }
 
   ngAfterViewInit(): void {

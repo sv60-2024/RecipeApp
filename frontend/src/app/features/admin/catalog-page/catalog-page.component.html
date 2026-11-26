@@ -1,1 +1,14 @@
-<app-data-table [columns]="catalog.columns" [data]="(items$ | async) ?? []"></app-data-table>
+<app-data-table
+  [columns]="catalog.columns"
+  [data]="(items$ | async) ?? []"
+  [editable]="catalog.editable"
+  (edit)="edit($event)"
+  (remove)="remove($event)"
+>
+  @if (catalog.editable) {
+    <button mat-flat-button type="button" class="add-button" (click)="add()">
+      <mat-icon>add</mat-icon>
+      Dodaj
+    </button>
+  }
+</app-data-table>

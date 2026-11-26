@@ -6,10 +6,10 @@ import { RouterTestingHarness } from '@angular/router/testing';
 import { adminGuard } from './admin.guard';
 import { AuthService, Role } from './auth.service';
 
-@Component({ template: 'home' })
+@Component({ selector: 'app-home-stub', template: 'home' })
 class HomeStub {}
 
-@Component({ template: 'admin' })
+@Component({ selector: 'app-admin-stub', template: 'admin' })
 class AdminStub {}
 
 describe('adminGuard', () => {

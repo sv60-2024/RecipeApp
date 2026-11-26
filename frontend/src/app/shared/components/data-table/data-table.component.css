@@ -2,6 +2,14 @@
   display: block;
 }
 
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0 16px;
+}
+
 .search {
   width: 100%;
   max-width: 360px;
@@ -9,8 +17,12 @@
 
 .table-card {
   overflow: hidden;
-  border: 1px solid var(--mat-sys-outline-variant);
+  background: #ffffff;
+  border: 1px solid #d3dfd5;
   border-radius: 12px;
+  --mat-table-background-color: #ffffff;
+  --mat-paginator-container-background-color: #ffffff;
+  --mat-table-header-headline-color: #304538;
 }
 
 table {
@@ -20,6 +32,11 @@ table {
 
 .mat-column-id {
   width: 64px;
+}
+
+.mat-column-actions {
+  width: 112px;
+  text-align: right;
 }
 
 .no-data {
