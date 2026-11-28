@@ -1,0 +1,42 @@
+# SPRING BOOT / MAVEN
+backend/target/
+backend/build/
+.mvn/timing.properties
+
+# INTELLIJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS CODE
+.vscode/
+
+# ECLIPSE
+.project
+.classpath
+.settings/
+.factorypath
+
+# ANGULAR / NODE.JS
+frontend/node_modules/
+frontend/.angular/
+frontend/dist/
+frontend/coverage/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# LOCAL ENVIRONMENT
+.env
+.env.*
+!.env.example
+
+# LOG FILES
+*.log
+logs/
+
+# OPERATING SYSTEM
+.DS_Store
+Thumbs.db
